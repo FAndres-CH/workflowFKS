@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/workflowFKS/static/css/main.8c8b27cf.chunk.css",
-    "main.js": "/workflowFKS/static/js/main.f102e8e3.chunk.js",
-    "main.js.map": "/workflowFKS/static/js/main.f102e8e3.chunk.js.map",
+    "main.js": "/workflowFKS/static/js/main.cb77652e.chunk.js",
+    "main.js.map": "/workflowFKS/static/js/main.cb77652e.chunk.js.map",
     "runtime-main.js": "/workflowFKS/static/js/runtime-main.014a21ed.js",
     "runtime-main.js.map": "/workflowFKS/static/js/runtime-main.014a21ed.js.map",
-    "static/js/2.61b5eb2a.chunk.js": "/workflowFKS/static/js/2.61b5eb2a.chunk.js",
-    "static/js/2.61b5eb2a.chunk.js.map": "/workflowFKS/static/js/2.61b5eb2a.chunk.js.map",
+    "static/js/2.4a036493.chunk.js": "/workflowFKS/static/js/2.4a036493.chunk.js",
+    "static/js/2.4a036493.chunk.js.map": "/workflowFKS/static/js/2.4a036493.chunk.js.map",
     "index.html": "/workflowFKS/index.html",
     "static/css/main.8c8b27cf.chunk.css.map": "/workflowFKS/static/css/main.8c8b27cf.chunk.css.map",
-    "static/js/2.61b5eb2a.chunk.js.LICENSE.txt": "/workflowFKS/static/js/2.61b5eb2a.chunk.js.LICENSE.txt"
+    "static/js/2.4a036493.chunk.js.LICENSE.txt": "/workflowFKS/static/js/2.4a036493.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.014a21ed.js",
-    "static/js/2.61b5eb2a.chunk.js",
+    "static/js/2.4a036493.chunk.js",
     "static/css/main.8c8b27cf.chunk.css",
-    "static/js/main.f102e8e3.chunk.js"
+    "static/js/main.cb77652e.chunk.js"
   ]
 }
