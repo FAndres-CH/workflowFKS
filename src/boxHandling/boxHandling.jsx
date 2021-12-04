@@ -4,9 +4,8 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { uuid } from "uuidv4";
-import { amber, blue, deepOrange, deepPurple, green, grey, lightBlue, lime, orange, purple, red, yellow } from "@mui/material/colors";
+import { amber, blue, deepOrange, deepPurple,  grey, lightBlue, lime, orange, yellow } from "@mui/material/colors";
 import { Button, Fab, FormControlLabel, Switch, Typography } from "@mui/material";
-import { color } from "@mui/system";
 
 export default function BoxHandling() {
   const [arr, setArr] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -25,6 +24,8 @@ export default function BoxHandling() {
   const [loadFKS, setLoadFKS] = useState(false);
   const fksWorkTime = 15;
   const [fksTimer, setFksTimer] = useState(fksWorkTime);
+  const fksLoadChipsTime = 5;
+  const [fksLoadChips, setFksLoadChips] = useState(fksLoadChipsTime);
   const [clock, setClock] = useState(0);
   const [separation, setSeparation] = useState(false);
   const [forwardState, setForwardState] = useState(true);
@@ -60,7 +61,7 @@ export default function BoxHandling() {
       setClock(prev => {return prev + 1})
     }, 50);
     return () => clearInterval(intervalFast);
-  }, [arr, stop, cantWait, work, stopHandle1, stopHandle2, loadFKS, separation, forwardState,blockFKSUnloading]);
+  }, [arr, stop, cantWait, work, stopHandle1, stopHandle2, loadFKS, separation, forwardState,blockFKSUnloading, clock, fksLoadChips]);
 
   function releaseStopPosition(pos) {
     console.log("releaseStopPosition");
@@ -96,14 +97,14 @@ export default function BoxHandling() {
   }
 
   function loadBuffer() {
-    if (arr[loadPos] == 2 && work[0] < maxLoad && !loadFKS && !blockLoading) {
+    if (arr[loadPos] === 2 && work[0] < maxLoad && !loadFKS && !blockLoading) {
       unLoadBox(loadPos);
       setWork((prev) => {
         const data = [...prev];
         data[0] += 1;
         return data;
       });
-    } else if (arr[loadPos] == 1) {
+    } else if (arr[loadPos] === 1) {
       setStopHandle1(true);
     }
   }
@@ -112,28 +113,32 @@ export default function BoxHandling() {
     if (work[1] >= maxLoad && fksTimer >= 1){
       setFksTimer(prev => {return prev - 1})
     }
+    if (fksLoadChips >  0 && work[1] <= 0) {
+      setFksLoadChips(prev => {return prev - 1})
+    }
   }
 
   function unloadBuffer() {
-    if (arr[unloadPos] == 1 && work[2] > 0 && (!separation || work[2] > (maxLoad/2 +1)) && !blockUnloading) {
+    if (arr[unloadPos] === 1 && work[2] > 0 && (!separation || work[2] > (maxLoad/2 +1)) && !blockUnloading) {
       LoadBox(unloadPos);
       setWork((prev) => {
         const data = [...prev];
         data[2] -= 1;
         return data;
       });
-    } else if (arr[unloadPos] == 2) {
+    } else if (arr[unloadPos] === 2) {
       setStopHandle2(true);
     }
   }
 
   function forwardWork() {
-    if (work[2] == 0 && work[1] >= maxLoad && !loadFKS && fksTimer <= 0 && !blockFKSUnloading) {
+    if (work[2] === 0 && work[1] >= maxLoad && !loadFKS && fksTimer <= 0 && !blockFKSUnloading) {
       setSeparation(true);
       
-    } else if (work[1] == 0 && work[0] >= maxLoad && !separation && !blockFKSUnloading) {
+    } else if (work[1] === 0 && work[0] >= maxLoad && !separation && !blockFKSUnloading && fksLoadChips === 0) {
       setLoadFKS(true);
       setFksTimer(fksWorkTime)
+      setFksLoadChips(fksLoadChipsTime)
     }
 
     if (loadFKS && work[0] > 0){
@@ -209,15 +214,15 @@ export default function BoxHandling() {
         jumpNext = false;
         continue;
       }
-      if (arr[index] == undefined) {
+      if (arr[index] === undefined) {
         setEmpty(index);
         continue;
       }
-      if (arr[index] == 0) continue;
+      if (arr[index] === 0) continue;
       if (!arr[index]) continue;
       if (
         (arr[index + 1] === 0 || arr[index + 1] === undefined) &&
-        (stop[index] === 0 || stop[index] == undefined) &&
+        (stop[index] === 0 || stop[index] === undefined) &&
         (cantWait[index] === 0 ||
           arr[index + 2] === 0 ||
           arr[index + 2] === undefined)
@@ -230,9 +235,9 @@ export default function BoxHandling() {
   };
 
   function BoxOnPlace({ value }) {
-    if (value == 2) {
+    if (value === 2) {
       return <Box key={uuid()}>'box full'</Box>;
-    } else if (value == 1) {
+    } else if (value === 1) {
       return <Box key={uuid()}>'box'</Box>;
     }
     return <Box key={uuid()}>'leer'</Box>;
@@ -257,9 +262,9 @@ const boxGetter = (pos) => {
   if (pos === undefined){
     return <Item sx={{background: grey[50] }}></Item>
   }
-  if (arr[pos] == 2) {
+  if (arr[pos] === 2) {
     return <Item sx={{background: orange[700]}}></Item>
-  } else if (arr[pos] == 1) {
+  } else if (arr[pos] === 1) {
     return <Item sx={{background: orange[200]}}></Item>
   }
   return <Item sx={{background: blue[50]}}></Item>
@@ -293,6 +298,11 @@ const f = (pos) => {
 const t = (pos) => {
   return <Grid item xs={1}>
     <Item sx={{background: lightBlue[500]}}><Typography variant="body1" >Work: {fksTimer}</Typography></Item>
+  </Grid>}
+
+const h = (pos) => {
+  return <Grid item xs={1}>
+    <Item sx={{background: lightBlue[500]}}><Typography variant="body1" >Chips: {fksLoadChips}</Typography></Item>
   </Grid>}
 
 const tx = (text) => {
