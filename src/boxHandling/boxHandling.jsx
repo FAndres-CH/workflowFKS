@@ -54,11 +54,6 @@ export default function BoxHandling() {
     const intervalFast = setInterval(() => {
       if (!forwardState) return 
       updateFastProcess();
-      if (clock >= clockTime){
-        setClock(0);
-        updateProcess();
-      }
-      setClock(prev => {return prev + 1})
     }, 50);
     return () => clearInterval(intervalFast);
   }, [arr, stop, cantWait, work, stopHandle1, stopHandle2, loadFKS, separation, forwardState,blockFKSUnloading, clock, fksLoadChips]);
@@ -83,6 +78,12 @@ export default function BoxHandling() {
   function updateFastProcess() {
     updateBox();
     setStopPositions();
+    if (clock >= clockTime){
+      setClock(0);
+      updateProcess();
+      return
+    }
+    setClock(prev => {return prev + 1})
   }
 
 
@@ -351,7 +352,7 @@ const x = (pos) => {
   {e()}{e()}{e(25)}{e(24)}{e(23)}{e(22)}{e(21)}{e(20)}{e(19)}{e(18)}{e(17)}{e(16)}{e(15)}{e(14)}{e(13)}{e(12)}{e(11)}{e(10)}{e()}{e()}
   {e()}{e()}{e(26)}{e()}{tx("Unload Pos")}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{c()}{c()}{c()}{e(9)}{e()}{e()}
   {e()}{e()}{e(27)}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{l()}{l()}{l()}{e(8)}{e()}{e()}
-  {e()}{e()}{e(28)}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{l()}{b(0)}{l()}{e(7)}{tx("load Pos")}{e()}
+  {e()}{e()}{e(28)}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{l()}{b(0)}{l()}{e(7)}{tx("Load Pos")}{e()}
   {e()}{e()}{e(29)}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{l()}{l()}{l()}{e(6)}{e()}{e()}
   {e()}{e()}{e(30)}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e(5)}{e()}{e()}
   {e()}{z()}{e(31)}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e(4)}{e()}{e()}
@@ -380,11 +381,11 @@ const handleChange = event => {
           setBoxOnStart();
         }}
       >
-        setStart
+        push new box
       </Button>
       <Button
         onClick={() => {
-          updateProcess();
+          updateFastProcess();
         }}
       >
         forward
