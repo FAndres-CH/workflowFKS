@@ -132,12 +132,11 @@ export default function BoxHandling() {
   }
 
   function forwardWork() {
-    if (work[2] === 0 && work[1] >= maxLoad && !loadFKS && fksTimer <= 0 && !blockFKSUnloading) {
-      setSeparation(true);
-      
-    } else if (work[1] === 0 && work[0] >= maxLoad && !separation && !blockFKSUnloading && fksLoadChips === 0) {
+    if (work[1] === 0 && work[0] >= maxLoad && !separation && !blockFKSUnloading && fksLoadChips === 0) {
       setLoadFKS(true);
       setFksTimer(fksWorkTime)
+    } else if (work[2] === 0 && work[1] >= maxLoad && !loadFKS && fksTimer <= 0 && !blockFKSUnloading) {
+      setSeparation(true);
       setFksLoadChips(fksLoadChipsTime)
     }
 
