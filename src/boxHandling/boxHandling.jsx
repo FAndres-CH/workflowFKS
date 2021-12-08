@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { uuid } from "uuidv4";
 import { amber, blue, deepOrange, deepPurple,  grey, lightBlue, lime, orange, yellow } from "@mui/material/colors";
 import { Button, Fab, FormControlLabel, Switch, Typography } from "@mui/material";
 
@@ -57,16 +56,7 @@ export default function BoxHandling() {
       updateFastProcess();
     }, 50);
     return () => clearInterval(intervalFast);
-  }, [arr, stop, cantWait, work, stopHandle1, stopHandle2, loadFKS, separation, forwardState,blockFKSUnloading, clock, fksLoadChips, allPositions]);
-
-  function releaseStopPosition(pos) {
-    console.log("releaseStopPosition");
-    setStop((prev) => {
-      const data = [...prev];
-      data[pos] = 5;
-      return data;
-    });
-  }
+  }, [arr, stop, cantWait, work, stopHandle1, stopHandle2, loadFKS, separation, forwardState,blockFKSUnloading, clock, fksLoadChips, allPositions, clockTime, fksLoadChipsTime, fksTimer, blockLoading, blockUnloading, blockFKSUnloading ]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function updateProcess(){
     console.log("update");
@@ -236,14 +226,6 @@ export default function BoxHandling() {
     }
   };
 
-  function BoxOnPlace({ value }) {
-    if (value === 2) {
-      return <Box key={uuid()}>'box full'</Box>;
-    } else if (value === 1) {
-      return <Box key={uuid()}>'box'</Box>;
-    }
-    return <Box key={uuid()}>'leer'</Box>;
-  }
 
 
 
@@ -365,11 +347,6 @@ const x = (pos) => {
   {e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}{e()}
   </Grid>
 </Box>
-
-const handleChange = event => {
-  setForwardState(event.target.checked);
-  //handleSwitch(event.target.checked);
-};
 
   return (
     <div>
