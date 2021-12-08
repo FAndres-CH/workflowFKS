@@ -32,6 +32,7 @@ export default function BoxHandling() {
   const [blockLoading, setBlockLoading] = useState(false);
   const [blockUnloading, setBlockUnloading] = useState(false);
   const [blockFKSUnloading, setBlockFKSUnloading] = useState(false);
+  const [allPositions, setAllPositions] = useState(false);
   const loadPos = 7;
   const unloadPos = 23;
   const maxLoad = 8;
@@ -56,7 +57,7 @@ export default function BoxHandling() {
       updateFastProcess();
     }, 50);
     return () => clearInterval(intervalFast);
-  }, [arr, stop, cantWait, work, stopHandle1, stopHandle2, loadFKS, separation, forwardState,blockFKSUnloading, clock, fksLoadChips]);
+  }, [arr, stop, cantWait, work, stopHandle1, stopHandle2, loadFKS, separation, forwardState,blockFKSUnloading, clock, fksLoadChips, allPositions]);
 
   function releaseStopPosition(pos) {
     console.log("releaseStopPosition");
@@ -223,7 +224,8 @@ export default function BoxHandling() {
       if (
         (arr[index + 1] === 0 || arr[index + 1] === undefined) &&
         (stop[index] === 0 || stop[index] === undefined) &&
-        (cantWait[index] === 0 ||
+        (allPositions || 
+          cantWait[index] === 0 ||
           arr[index + 2] === 0 ||
           arr[index + 2] === undefined)
       ) {
@@ -419,7 +421,7 @@ const handleChange = event => {
             inputProps={{ "aria-label": "secondary checkbox" }}
           />
         }
-        label={"Block Loading Buffer"}
+        label={"Block loading buffer"}
         labelPlacement="start"
       />
       <FormControlLabel
@@ -432,7 +434,7 @@ const handleChange = event => {
             inputProps={{ "aria-label": "secondary checkbox" }}
           />
         }
-        label={"Block unloading Separation"}
+        label={"Block unloading separation"}
         labelPlacement="start"
       />
        <FormControlLabel
@@ -445,7 +447,20 @@ const handleChange = event => {
             inputProps={{ "aria-label": "secondary checkbox" }}
           />
         }
-        label={"Block FKS Handling"}
+        label={"Block FKS handling"}
+        labelPlacement="start"
+      />
+      <FormControlLabel
+        control={
+          <Switch
+            checked={allPositions}
+            onChange={(event) => {
+              setAllPositions(event.target.checked)}}
+            value={allPositions}
+            inputProps={{ "aria-label": "secondary checkbox" }}
+          />
+        }
+        label={"use all Pos"}
         labelPlacement="start"
       />
     </div>
